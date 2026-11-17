@@ -1,10 +1,28 @@
-import React from "react" 
+import {useState,useEffect} from "react" 
 
 
 
 function App() {
 
+  const[allQuestions,setAllQuestions] = useState()
 
+ useEffect(() => {
+    fetch('https://opentdb.com/api.php?amount=4')
+      .then((response) => response.json())
+      .then((data) => {
+        setAllQuestions(data.results)
+        })
+      .catch((error) => console.error('Error fetching trivia:', error))
+      }, [])
+
+
+  // const questionsArray = allQuestions.map(eachQuestion=>
+  //   eachQuestion.question
+  // )
+
+  console.log(allQuestions)
+
+  // console.log(questionsArray)
 
   const firstPage = <section className="main-page">
         <h1>Quizzical</h1>
@@ -12,18 +30,16 @@ function App() {
         <button onClick={handleClick}>Start quiz</button>
       </section>
 
-  const secondPage = <section className="quiz-page">
+  const secondPage = 
+      <section className="quiz-page">
         <h1>Quizzical</h1>
-        <p>Question 1</p>
+        
         <div className="answers">
-          <button>Answer 1</button>
-          <button>Answer 2</button>
-          <button>Answer 3</button>
-          <button onClick = {handleClick}>Answer 4</button>
+          <button onClick = {handleClick}>back to first page</button>
         </div>
       </section>
 
-  const [isFirstPage, setIsFirstPage] = React.useState(true)
+  const [isFirstPage, setIsFirstPage] = useState(true)
 
   function handleClick() {
     setIsFirstPage(prevState => !prevState)
