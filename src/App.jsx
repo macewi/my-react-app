@@ -5,6 +5,9 @@ import {useState,useEffect} from "react"
 function App() {
 
   const[allQuestions,setAllQuestions] = useState([])
+  const[recordAnswers,setrecordAnswers]= useState()
+
+  const inputAnswerArray = []
 
  useEffect(() => {
     fetch('https://opentdb.com/api.php?amount=4')
@@ -21,15 +24,31 @@ function App() {
   // const questionsArray = allQuestions.map(eachQuestion=>
   //   eachQuestion.question
   // )
+// const answer  = ()=>
 
- const questions = allQuestions.map((item,index)=>(
-          
-          <div className = "question" key = {index}>
-            <p>{item.question}</p>
-            <p>{item.correct_answer}</p>
+
+ const questions = allQuestions.map((item,index)=>{
+
+          const randomIndex = Math.floor(Math.random() * (item.incorrect_answers.length + 1));
+          !item.incorrect_answers.includes(item.correct_answer)&&item.incorrect_answers.splice(randomIndex, 0, item.correct_answer)
+          const allAnswers = item.incorrect_answers
+
+
+
+          return(
+          <div  key = {index} className = "question-group">
+            <p className = "question">{item.question}</p>
+            <div className = "answers-row">
+              {allAnswers.map((answerItem)=>
+              <label key = {answerItem} className = "radio-btn">
+                <input type = "radio"  name = {index} value = {answerItem}/>
+                {answerItem}
+                </label>
+              
+              )}
             </div>
-          
-        ))
+            </div>
+        )})
 
 
   // console.log(questionsArray)
@@ -41,11 +60,8 @@ function App() {
       </section>
 
   const secondPage = 
-      <section className="quiz-page">
-        <div>{questions}</div>
-        <div className="answers">
-          <button onClick = {handleClick}>back to first page</button>
-        </div>
+      <section >
+        <div className="quiz-page">{questions}</div>
       </section>
 
   const [isFirstPage, setIsFirstPage] = useState(true)

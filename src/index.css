@@ -45,3 +45,59 @@ font-family: 'inter', sans-serif;
   color: #293264;
   margin-top: 20px;
 }
+
+.quiz-page{
+  display: flex;
+  padding:40px;
+  flex-direction: column;
+  height: 100dvh;
+  align-content: center;
+  justify-content: space-evenly;
+
+}
+
+.question-group{
+  margin:0;
+
+}
+.question{
+  font-family: "karla", sans-serif;
+  font-weight: 600;
+  color: #293264;
+}
+
+.answers-row{
+  display: flex;
+  flex-direction: row;
+  font-size: small;
+  flex-wrap: wrap;
+  font-family: "inter";
+  gap:15px;
+}
+
+
+
+.radio-btn{
+  border:#4D5B9E solid 1px;
+  height: 13px;
+  padding:5px 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  position: relative;
+}
+
+.radio-btn:has(input[type="radio"]:checked){
+  background-color: #D6DBF5;
+  border-color:transparent;  
+
+}
+
+.radio-btn input[type = "radio"]{
+position: absolute;
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+  margin: 0;
+
+}
