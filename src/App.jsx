@@ -4,7 +4,7 @@ import {useState,useEffect} from "react"
 
 function App() {
 
-  const[allQuestions,setAllQuestions] = useState()
+  const[allQuestions,setAllQuestions] = useState([])
 
  useEffect(() => {
     fetch('https://opentdb.com/api.php?amount=4')
@@ -16,11 +16,21 @@ function App() {
       }, [])
 
 
+
+
   // const questionsArray = allQuestions.map(eachQuestion=>
   //   eachQuestion.question
   // )
 
-  console.log(allQuestions)
+ const questions = allQuestions.map((item,index)=>(
+          
+          <div className = "question" key = {index}>
+            <p>{item.question}</p>
+            <p>{item.correct_answer}</p>
+            </div>
+          
+        ))
+
 
   // console.log(questionsArray)
 
@@ -32,8 +42,7 @@ function App() {
 
   const secondPage = 
       <section className="quiz-page">
-        <h1>Quizzical</h1>
-        
+        <div>{questions}</div>
         <div className="answers">
           <button onClick = {handleClick}>back to first page</button>
         </div>
@@ -44,8 +53,6 @@ function App() {
   function handleClick() {
     setIsFirstPage(prevState => !prevState)
   }
-
-
 
   return (
     <main>
