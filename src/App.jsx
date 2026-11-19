@@ -4,21 +4,29 @@ import clsx from "clsx"
 
 
 function App() {
+const [isFirstPage, setIsFirstPage] = useState(true)
+const[allQuestions,setAllQuestions] = useState([])
+const[recordAnswers,setRecordAnswers]= useState([])
+const[newGame,setNewGame]=useState(false)
 
-  const[allQuestions,setAllQuestions] = useState([])
-  const[recordAnswers,setRecordAnswers]= useState([])
-
-const reload=()=>{
-allQuestions=[]
-recordAnswers=[]
-handleClick()
-
-}
-
-
-  const correctAnswersArray = allQuestions.map(item=>
-    item.correct_answer
+    function handleClick() {
+    setIsFirstPage(prevState => !prevState)
+    
+  }
+let correctlyAnsweredCount=0
+allQuestions.map(item=>
+    recordAnswers.includes(item.correct_answer)&&correctlyAnsweredCount++
   )
+
+  function launchNewGame(){
+  
+    handleClick()
+    setRecordAnswers([])
+    setNewGame(prevState => !prevState)
+
+  }
+
+
 
 
 function playersAnswers(formData){
@@ -32,7 +40,7 @@ function playersAnswers(formData){
 
           }
 
-console.log(reload)
+
   
 
  useEffect(() => {
@@ -42,7 +50,7 @@ console.log(reload)
         setAllQuestions(data.results)
         })
       .catch((error) => console.error('Error fetching trivia:', error))
-      }, [])
+      }, [newGame])
 
 
 
@@ -102,19 +110,33 @@ console.log(reload)
       </section>
 
   const secondPage = 
-      <section className="quiz-page">
+      
+        recordAnswers.length>0?
+          <section className="quiz-page">
+        <form action={playersAnswers}>
+          <div className="question-set">{questions}</div>
+          </form>
+        <div className="new-game-button-text">
+          <p>You scored {correctlyAnsweredCount}/4 Correct answers</p>
+          <button onClick={launchNewGame}>Play Again</button>
+          
+        </div>
+        
+        
+      </section>
+        :
+        <section className="quiz-page">
         <form action={playersAnswers}>
           <div className="question-set">{questions}</div>
         <button>Check Answers</button>
         </form>
-        
       </section>
+      
+        
 
-  const [isFirstPage, setIsFirstPage] = useState(true)
+  
 
-  function handleClick() {
-    setIsFirstPage(prevState => !prevState)
-  }
+
 
   return (
     <main>

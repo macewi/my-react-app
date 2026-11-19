@@ -24,7 +24,7 @@ font-family: 'inter', sans-serif;
   margin:0;
 }
 
-.main-page >button{
+.main-page >button, .new-game-button-text>button{
   background-color: #4D5B9E;
   color: white;
   border: none;
@@ -34,8 +34,25 @@ font-family: 'inter', sans-serif;
   width: 193px;
   height: 50px;
   border-radius: 15px;
-  margin-top: 20px;
+  margin-top: 0px;
   font-size: 15px;
+  /* border: black solid; */
+}
+.new-game-button-text{
+display: flex;
+align-items:center;
+/* border:black solid; */
+gap:20px;
+margin-top:55px;
+}
+
+.new-game-button-text>p{
+font-family:"karla", sans-serif;
+  font-weight:600;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #293264;
+  margin:0;
 }
 
 .main-page > p{
