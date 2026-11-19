@@ -1,13 +1,39 @@
 import {useState,useEffect} from "react" 
+import clsx from "clsx"
 
 
 
 function App() {
 
   const[allQuestions,setAllQuestions] = useState([])
-  const[recordAnswers,setrecordAnswers]= useState()
+  const[recordAnswers,setRecordAnswers]= useState([])
 
-  const inputAnswerArray = []
+const reload=()=>{
+allQuestions=[]
+recordAnswers=[]
+handleClick()
+
+}
+
+
+  const correctAnswersArray = allQuestions.map(item=>
+    item.correct_answer
+  )
+
+
+function playersAnswers(formData){
+
+            setRecordAnswers([
+              
+              formData.get(0),
+            formData.get(1),
+          formData.get(2),
+          formData.get(3),])
+
+          }
+
+console.log(reload)
+  
 
  useEffect(() => {
     fetch('https://opentdb.com/api.php?amount=4')
@@ -32,6 +58,9 @@ function App() {
           const randomIndex = Math.floor(Math.random() * (item.incorrect_answers.length + 1));
           !item.incorrect_answers.includes(item.correct_answer)&&item.incorrect_answers.splice(randomIndex, 0, item.correct_answer)
           const allAnswers = item.incorrect_answers
+          
+          
+          // const wronglyAnswered = recordAnswers[index]!==item.correct_answer
 
 
 
@@ -40,10 +69,23 @@ function App() {
             <p className = "question">{item.question}</p>
             <div className = "answers-row">
               {allAnswers.map((answerItem)=>
-              <label key = {answerItem} className = "radio-btn">
+                
+              
+              {
+              const wronglyClicked = recordAnswers[index]===answerItem && answerItem!==item.correct_answer
+              const correctlyClicked =  answerItem===item.correct_answer
+
+              return(<label key = {answerItem} className = 
+              {recordAnswers.length<1?
+              "radio-btn":
+              clsx("radio-btn-greyed",
+                {
+                  "radio-btn-correct":correctlyClicked,
+                "radio-btn-wrong":wronglyClicked}
+              )}>
                 <input type = "radio"  name = {index} value = {answerItem}/>
                 {answerItem}
-                </label>
+                </label>)}
               
               )}
             </div>
@@ -60,8 +102,12 @@ function App() {
       </section>
 
   const secondPage = 
-      <section >
-        <div className="quiz-page">{questions}</div>
+      <section className="quiz-page">
+        <form action={playersAnswers}>
+          <div className="question-set">{questions}</div>
+        <button>Check Answers</button>
+        </form>
+        
       </section>
 
   const [isFirstPage, setIsFirstPage] = useState(true)
